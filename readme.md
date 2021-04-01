@@ -1,9 +1,6 @@
-# Three.js Journey
+# The Story of the Infinity Stones
 
 ## Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
-
 ``` bash
 # Install dependencies (only the first time)
 npm install
