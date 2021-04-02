@@ -33,23 +33,19 @@ body {
     padding: 3rem 1rem;
 }
 
-/*////////////////////////////////////////
-////////////////// PAGES /////////////////
-////////////////////////////////////////*/
-
 .page {
     width: 100%;
     height: 100%;
 }
 
+/*////////////////////////////////////////
+////////////// LANDING PAGE //////////////
+////////////////////////////////////////*/
+
 .page-landing {
     display: flex;
     justify-content: center;
 }
-
-/*////////////////////////////////////////
-/////////////// COMPONENTS ///////////////
-////////////////////////////////////////*/
 
 h1.title {
     margin: 0;
@@ -64,4 +60,35 @@ h1.title {
 h1.title .title__small {
     font-size: 1.25rem;
     font-style: italic;
+}
+
+/*////////////////////////////////////////
+/////////////// STONE PAGE ///////////////
+////////////////////////////////////////*/
+
+.page-stone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stone__name {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.stone__alt {
+    margin: 0;
+    font-size: 1.25rem;
+    font-style: italic;
+    text-align: center;
+}
+
+.stone__description {
+    width: 48rem;
+    max-width: 100%;
+    line-height: 1.5;
 }
