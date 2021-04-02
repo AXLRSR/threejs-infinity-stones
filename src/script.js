@@ -4,8 +4,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js'
 
@@ -21,10 +19,6 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-
-// Helpers
-// const axesHelper = new THREE.AxesHelper(2)
-// scene.add(axesHelper)
 
 /**
  * Loaders
@@ -51,15 +45,11 @@ scene.environment = environmentMap
 /**
  * Meshes
  */
-// Colors
-debugObject.gemBackColor = '#ffffff'
-debugObject.gemFrontColor = '#202020'
-
 // Materials
-const gemBackMaterial = new THREE.MeshPhysicalMaterial({
+const stoneBackMaterial = new THREE.MeshPhysicalMaterial({
     map: null,
     flatShading: true,
-    color: debugObject.gemBackColor,
+    color: '#ffffff',
     metalness: 1,
     roughness: 0,
     opacity: 0.75,
@@ -69,10 +59,10 @@ const gemBackMaterial = new THREE.MeshPhysicalMaterial({
     premultipliedAlpha: true
 })
 
-const gemFrontMaterial = new THREE.MeshPhysicalMaterial({
+const stoneFrontMaterial = new THREE.MeshPhysicalMaterial({
     map: null,
     flatShading: true,
-    color: debugObject.gemFrontColor,
+    color: '#202020',
     metalness: 0,
     roughness: 0,
     opacity: 0.75,
@@ -83,47 +73,38 @@ const gemFrontMaterial = new THREE.MeshPhysicalMaterial({
     premultipliedAlpha: true
 })
 
-gui.addColor(debugObject, 'gemBackColor').onChange(() => {
-    gemBackMaterial.color.set(debugObject.gemBackColor)
-})
-gui.addColor(debugObject, 'gemFrontColor').onChange(() => {
-    gemFrontMaterial.color.set(debugObject.gemFrontColor)
-})
-
 // Geometries
-const gemGeometry = new THREE.OctahedronGeometry(1, 2)
+const stoneGeometry = new THREE.OctahedronGeometry(1, 2)
 
-// Gem
-const gemChild = new THREE.Mesh(
-    gemGeometry,
-    gemBackMaterial
+// Stone
+const stoneBack = new THREE.Mesh(
+    stoneGeometry,
+    stoneBackMaterial
 )
-gemChild.scale.set(1, 1.5, 1)
 
-const gemSecond = new THREE.Mesh(
-    gemGeometry,
-    gemFrontMaterial
+const stoneFront = new THREE.Mesh(
+    stoneGeometry,
+    stoneFrontMaterial
 )
-gemSecond.scale.set(1, 1.5, 1)
 
-const gemParent = new THREE.Group()
-gemParent.add(gemSecond)
-gemParent.add(gemChild)
+const stone = new THREE.Group()
+stone.add(stoneBack, stoneFront)
 
-gemParent.rotateY(Math.PI * 0.1)
-gemParent.rotateZ(- Math.PI * 0.07)
+stone.scale.set(1, 1.5, 1)
+stone.rotateY(Math.PI * 0.1)
+stone.rotateZ(- Math.PI * 0.07)
 
-scene.add(gemParent)
+scene.add(stone)
 
 /**
  * Lensflares
  */
-// Colors
-debugObject.lensflareColor = '#008800'
+// Color
+debugObject.lensflareColor = '#3074b7'
 
 // Textures
 const lensflareTexture = textureLoader.load('/textures/lensflares/lensflare.png')
-const lensflareBackTexture = textureLoader.load('/textures/lensflares/lensflareReflect.png')
+const lensflareReflectTexture = textureLoader.load('/textures/lensflares/lensflareReflect.png')
 
 // Lights
 const pointLightLensflare = new THREE.PointLight(debugObject.lensflareColor, 0.8)
@@ -142,12 +123,12 @@ const addLensflare = (x, y, z) =>
         0,
         pointLightLensflare.color
     ))
-    // lensflare.addElement(new LensflareElement(
-    //     lensflareBackTexture,
-    //     1000,
-    //     0,
-    //     pointLightLensflare.color
-    // ))
+    lensflare.addElement(new LensflareElement(
+        lensflareReflectTexture,
+        100,
+        5,
+        new THREE.Color(0.5, 0.5, 0.5)
+    ))
 
     pointLightLensflare.add(lensflare)
 }
@@ -157,7 +138,6 @@ addLensflare(0, 0.15, 1)
 gui.addColor(debugObject, 'lensflareColor').onChange(() => {
     pointLightLensflare.color.set(debugObject.lensflareColor)
 })
-gui.add(pointLightLensflare, 'intensity').min(0).max(5).step(0.001)
 
 /**
  * Sizes
@@ -189,13 +169,25 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 1, 6)
+const camera = new THREE.PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 1, 8)
 scene.add(camera)
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
+
+// Cursor
+const cursor = {
+    x: 0,
+    y: 0
+}
+
+window.addEventListener('mousemove', (event) =>
+{
+    cursor.x = event.clientX / sizes.width - 0.5
+    cursor.y = - (event.clientY / sizes.height - 0.5)
+})
 
 /**
  * Renderer
@@ -266,10 +258,14 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
-    controls.update()
+    // controls.update()
+
+    // Update camera
+    camera.position.x = cursor.x
+    camera.position.y = cursor.y
+    camera.lookAt(new THREE.Vector3(0, 0, 0))
 
     // Render
-    // renderer.render(scene, camera)
     effectComposer.render()
 
     // Call tick again on the next frame
