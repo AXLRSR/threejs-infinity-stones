@@ -8,17 +8,64 @@ import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js'
 
 /**
+ * Stones
+ */
+const stones = [
+    {
+        color: "#3074b7",
+        name: "Space Stone",
+        alt: "Tesseract",
+        description: "The Tesseract is named for its cube-like appearance and is capable of controlling space itself, providing the user instant access to any location throughout the universe if used correctly. The unique element that composes the Tesseract has also been used to create advanced weaponry by races like the Humans. This stone played an important role in humanity's development during the dawn of the superhero age, attracting the attention of forces such as Red Skull and Thanos, both of whom sought to use the Tesseract's power for their own sinister intents. It is later revealed that the cube is a containment unit built around the actual Infinity Stone so that it could be somewhat safely handled and controlled."
+    },
+    {
+        color: "#c4a131",
+        name: "Mind Stone",
+        alt: "Scepter",
+        description: "The Scepter was a weapon that utilized the Mind Stone housed inside a blue computer module. The stone within had already been in the possession of Thanos when he gave it to Loki to aid him in his invasion of Earth. It grants to the user powerful mental abilities, like the power to subjugate the minds of others, bending them to the will of the user, as well as project the user's consciousness to a higher plane of existence. When Loki failed in his campaign, the Scepter fell into the possession of S.H.I.E.L.D., eventually being passed on to HYDRA via sleeper agents. The Scepter was then used in various HYDRA experiments, notably inducing superhuman powers in Sokovian twins Wanda and Pietro Maximoff."
+    },
+    {
+        color: "#b71c1c",
+        name: "Reality Stone",
+        alt: "Aether",
+        description: "The Aether appears as a dark, red, viscous liquid. It acts as a symbiotic force, capable of being absorbed into the body of a living host, giving the user the ability to warp reality at will, granting that person immense strength, durability, powers, and subjective influence over the universe. It is later shown that the Aether is actually an Infinity Stone contained in a liquid form. The Aether is given to The Collector by Thor's companions, Sif and Volstagg and later seized by Thanos, who solidified it into the Reality Stone and inserted it into his Infinity Gauntlet."
+    },
+    {
+        color: "#a359c6",
+        name: "Power Stone",
+        alt: "Orb",
+        description: "The Power Stone is an incredible power source, it increases the user's physical abilities and allows it to manipulate energy, which, when used at full potential, has enough power to obliterate an entire planet when unleashed. This stone was sought by Thanos, who tasked Ronan the Accuser to acquire it from the dead planet of Morag, in exchange for destroying Xandar. However, Star-Lord acquired the stone first and was prepared to sell it to The Collector with Gamora until its destructive power was unleashed at Knowhere. Soon after, Ronan obtained it and harnessed its energy with the intent of destroying all life on Xandar and killing Thanos. Star-Lord and the Guardians of the Galaxy were able to take the stone from Ronan and collectively harness its power to destroy him."
+    },
+    {
+        color: "#388e3c",
+        name: "Time Stone",
+        alt: "Eye of Agamotto",
+        description: "The Eye of Agamotto is an ancient artifact, a pendant created by Agamotto, the first Sorcerer Supreme, presumably to contain and harness the power of the green Time Stone contained inside. After being stored for an unknown amount of time on a pedestal in Kamar-Taj, it was recently wielded by Doctor Stephen Strange, first to aid him in his learning of sorcery, then in his final fight against Kaecilius and Dormammu. When wielded by someone having the necessary knowledge and skills, it appeared to be able to control the flow of time."
+    },
+    {
+        color: "#c96a32",
+        name: "Soul Stone",
+        alt: "Vormir",
+        description: "The Soul Stone could prove to be the greatest threat out of all the Infinity Stones.[18] Gamora knew of the location of the Soul Stone from a map she found to its whereabouts (which she burnt) but kept this a secret from Thanos. Once captured and interrogated by her father, whom tortured Gamora's sister Nebula, he took her to its holding place on Vormir, where Red Skull, the Soul Stone's guardian, told them that it could only be accessed after a personal cost was paid - namely, the sacrifice of a loved one, to ensure that the owner understood its power. Thanos then tearfully sacrificed his daughter and later woke up with the Soul Stone in his hand, adding it to the Infinity Gauntlet."
+    }
+]
+
+const circleRadius = 10
+
+/**
  * Base
  */
 // Debug
 const gui = new dat.GUI()
-const debugObject = {}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+// Axes helper
+const axesHelper = new THREE.AxesHelper(circleRadius)
+// scene.add(axesHelper)
 
 /**
  * Loaders
@@ -76,50 +123,61 @@ const stoneFrontMaterial = new THREE.MeshPhysicalMaterial({
 // Geometries
 const stoneGeometry = new THREE.OctahedronGeometry(1, 2)
 
-// Stone
-const stoneBack = new THREE.Mesh(
-    stoneGeometry,
-    stoneBackMaterial
-)
+// Stones
+const stonesGroup = new THREE.Group()
 
-const stoneFront = new THREE.Mesh(
-    stoneGeometry,
-    stoneFrontMaterial
-)
+for (let i = 0; i < stones.length; i++) {
+    const stoneBack = new THREE.Mesh(
+        stoneGeometry,
+        stoneBackMaterial
+    )
+    
+    const stoneFront = new THREE.Mesh(
+        stoneGeometry,
+        stoneFrontMaterial
+    )
 
-const stone = new THREE.Group()
-stone.add(stoneBack, stoneFront)
+    const stone = new THREE.Group()
+    stone.add(stoneBack, stoneFront)
 
-stone.scale.set(1, 1.5, 1)
-stone.rotateY(Math.PI * 0.1)
-stone.rotateZ(- Math.PI * 0.07)
+    stone.scale.set(1, 1.5, 1)
 
-scene.add(stone)
+    stone.position.x = Math.sin((Math.PI / 3) * i) * circleRadius
+    stone.position.z = Math.cos((Math.PI / 3) * i) * circleRadius
+
+    stone.rotateY(Math.PI * 0.1)
+    stone.rotateZ(- Math.PI * 0.07)
+
+    stonesGroup.add(stone)
+}
+
+scene.add(stonesGroup)
 
 /**
  * Lensflares
  */
-// Color
-debugObject.lensflareColor = '#3074b7'
-
 // Textures
 const lensflareTexture = textureLoader.load('/textures/lensflares/lensflare.png')
 const lensflareReflectTexture = textureLoader.load('/textures/lensflares/lensflareReflect.png')
 
-// Lights
-const pointLightLensflare = new THREE.PointLight(debugObject.lensflareColor, 0.8)
-
 // Lensflare
-const addLensflare = (x, y, z) =>
-{
+const lensflareGroup = new THREE.Group()
+
+for (let i = 0; i < stones.length; i++) {
+    const pointLightLensflare = new THREE.PointLight(stones[i].color, 0.8, 2)
+
+    const x = Math.sin((Math.PI / 3) * i) * (circleRadius - 1)
+    const y = 0.15
+    const z = Math.cos((Math.PI / 3) * i) * (circleRadius - 1)
+
     pointLightLensflare.position.set(x, y, z)
-    scene.add(pointLightLensflare)
+    lensflareGroup.add(pointLightLensflare)
 
     const lensflare = new Lensflare()
 
     lensflare.addElement(new LensflareElement(
         lensflareTexture,
-        800,
+        1000,
         0,
         pointLightLensflare.color
     ))
@@ -133,11 +191,7 @@ const addLensflare = (x, y, z) =>
     pointLightLensflare.add(lensflare)
 }
 
-addLensflare(0, 0.15, 1)
-
-gui.addColor(debugObject, 'lensflareColor').onChange(() => {
-    pointLightLensflare.color.set(debugObject.lensflareColor)
-})
+scene.add(lensflareGroup)
 
 /**
  * Sizes
@@ -170,7 +224,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(0, 1, 8)
+// camera.position.set(0, 32, 0)
 scene.add(camera)
 
 // Controls
@@ -185,8 +239,8 @@ const cursor = {
 
 window.addEventListener('mousemove', (event) =>
 {
-    cursor.x = event.clientX / sizes.width - 0.5
-    cursor.y = - (event.clientY / sizes.height - 0.5)
+    cursor.x = (event.clientX / sizes.width - 0.5) * 2
+    cursor.y = - (event.clientY / sizes.height - 0.5) * 2
 })
 
 /**
@@ -261,9 +315,13 @@ const tick = () =>
     // controls.update()
 
     // Update camera
-    camera.position.x = cursor.x
-    camera.position.y = cursor.y
-    camera.lookAt(new THREE.Vector3(0, 0, 0))
+    const target = new THREE.Vector3(cursor.x, cursor.y, camera.position.z)
+    camera.lookAt(new THREE.Vector3(0, 0, circleRadius))
+    camera.position.lerp(target, 0.05)
+
+    // Rotate groups
+    // stonesGroup.rotation.y = elapsedTime * 0.3
+    // lensflareGroup.rotation.y = elapsedTime * 0.3
 
     // Render
     effectComposer.render()
