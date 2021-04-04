@@ -1,7 +1,5 @@
 import './style.css'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
@@ -54,18 +52,11 @@ const circleRadius = 10
 /**
  * Base
  */
-// Debug
-const gui = new dat.GUI()
-
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-
-// Axes helper
-const axesHelper = new THREE.AxesHelper(circleRadius)
-// scene.add(axesHelper)
 
 /**
  * Loaders
@@ -224,12 +215,7 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 100)
-// camera.position.set(0, 32, 0)
 scene.add(camera)
-
-// Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
 
 // Cursor
 const cursor = {
@@ -311,17 +297,10 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
-    // Update controls
-    // controls.update()
-
     // Update camera
     const target = new THREE.Vector3(cursor.x, cursor.y, camera.position.z)
     camera.lookAt(new THREE.Vector3(0, 0, circleRadius))
     camera.position.lerp(target, 0.05)
-
-    // Rotate groups
-    // stonesGroup.rotation.y = elapsedTime * 0.3
-    // lensflareGroup.rotation.y = elapsedTime * 0.3
 
     // Render
     effectComposer.render()
