@@ -30,16 +30,20 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 3rem 1rem 2rem;
 }
 
 .page {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    padding: 3rem 1rem 2rem;
 }
 
 .overlay {
     position: absolute;
+    z-index: 10;
     top: 0;
     left: 0;
     width: 100%;
@@ -47,38 +51,18 @@ body {
 }
 
 /*////////////////////////////////////////
-////////////// LANDING PAGE //////////////
-////////////////////////////////////////*/
-
-.page-landing {
-    display: flex;
-    justify-content: center;
-}
-
-h1.title {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 4rem;
-    font-weight: 400;
-    letter-spacing: 0.25rem;
-}
-
-h1.title .title__small {
-    font-size: 1.25rem;
-    font-style: italic;
-}
-
-/*////////////////////////////////////////
 /////////////// STONE PAGE ///////////////
 ////////////////////////////////////////*/
 
 .page-stone {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+}
+
+.page-stone.active {
+    display: flex;
 }
 
 .stone__name {
