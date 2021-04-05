@@ -44,7 +44,7 @@ const stones = [
         color: "#c96a32",
         name: "The Soul Stone",
         alt: "Vormir",
-        description: "The Soul Stone could prove to be the greatest threat out of all the Infinity Stones.[18] Gamora knew of the location of the Soul Stone from a map she found to its whereabouts (which she burnt) but kept this a secret from Thanos. Once captured and interrogated by her father, whom tortured Gamora's sister Nebula, he took her to its holding place on Vormir, where Red Skull, the Soul Stone's guardian, told them that it could only be accessed after a personal cost was paid - namely, the sacrifice of a loved one, to ensure that the owner understood its power. Thanos then tearfully sacrificed his daughter and later woke up with the Soul Stone in his hand, adding it to the Infinity Gauntlet."
+        description: "The Soul Stone could prove to be the greatest threat out of all the Infinity Stones. Gamora knew of the location of the Soul Stone from a map she found to its whereabouts (which she burnt) but kept this a secret from Thanos. Once captured and interrogated by her father, whom tortured Gamora's sister Nebula, he took her to its holding place on Vormir, where Red Skull, the Soul Stone's guardian, told them that it could only be accessed after a personal cost was paid - namely, the sacrifice of a loved one, to ensure that the owner understood its power. Thanos then tearfully sacrificed his daughter and later woke up with the Soul Stone in his hand, adding it to the Infinity Gauntlet."
     }
 ]
 
