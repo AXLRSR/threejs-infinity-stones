@@ -4,9 +4,10 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js'
+import gsap from 'gsap'
 
 /**
- * Stones
+ * Const
  */
 const stones = [
     {
@@ -287,6 +288,49 @@ if(renderer.getPixelRatio() === 1 && !renderer.capabilities.isWebGL2)
 
     console.log('Using SMAA')
 }
+
+/**
+ * Controls
+ */
+const btnPrev = document.querySelector('.btn.btn-prev')
+const btnNext = document.querySelector('.btn.btn-next')
+
+let slidePosition = 0
+
+const slideAnimation = () =>
+{
+    gsap.to([stonesGroup.rotation, lensflareGroup.rotation], {
+        duration: 1,
+        ease: "power3.inOut",
+        y: slidePosition * Math.PI / 3
+    })
+}
+
+btnPrev.addEventListener('click', () =>
+{
+    slidePosition--
+    slideAnimation()
+})
+
+btnNext.addEventListener('click', () =>
+{
+    slidePosition++
+    slideAnimation()
+})
+
+window.addEventListener('keydown', (e) =>
+{
+    if(e.key === 'ArrowLeft')
+    {
+        slidePosition--
+        slideAnimation()
+    }
+    if(e.key === 'ArrowRight')
+    {
+        slidePosition++
+        slideAnimation()
+    }
+})
 
 /**
  * Animate

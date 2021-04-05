@@ -38,6 +38,14 @@ body {
     height: 100%;
 }
 
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 /*////////////////////////////////////////
 ////////////// LANDING PAGE //////////////
 ////////////////////////////////////////*/
@@ -91,4 +99,23 @@ h1.title .title__small {
     width: 48rem;
     max-width: 100%;
     line-height: 1.5;
+}
+
+/*////////////////////////////////////////
+//////////// CONTROLS OVERLAY ////////////
+////////////////////////////////////////*/
+
+.overlay-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    all: unset;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.btn .material-icons {
+    font-size: 3rem;
 }
