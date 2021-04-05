@@ -55,14 +55,22 @@ body {
 ////////////////////////////////////////*/
 
 .page-stone {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(5rem);
+
+    transition: all 1000ms ease-in-out;
 }
 
 .page-stone.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
 }
 
 .stone__name {
