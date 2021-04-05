@@ -95,6 +95,12 @@ body {
     line-height: 1.5;
 }
 
+@media (max-width: 575.98px) {
+    .stone__description {
+        display: none;
+    }
+}
+
 /*////////////////////////////////////////
 //////////// CONTROLS OVERLAY ////////////
 ////////////////////////////////////////*/
