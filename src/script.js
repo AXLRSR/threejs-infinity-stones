@@ -53,6 +53,7 @@ const circleRadius = 10
 /**
  * HTML
  */
+// Content
 const htmlContent = document.querySelector('.content')
 
 for (let i = 0; i < stones.length; i++) {
@@ -69,6 +70,50 @@ for (let i = 0; i < stones.length; i++) {
 
 const firstStone = document.querySelector('.page-stone[data-id="0"]')
 firstStone.classList.add('active')
+
+// Intro
+const introTitleOne = document.querySelector('.intro__title__one')
+const introTitleTwo = document.querySelector('.intro__title__two')
+const introBtn = document.querySelector('.intro__btn')
+
+introTitleOne.innerHTML = `<span class="splited-letter">${introTitleOne.innerHTML.split('').join('</span><span class="splited-letter">')}</span>`
+introTitleTwo.innerHTML = `<span class="splited-letter">${introTitleTwo.innerHTML.split('').join('</span><span class="splited-letter">')}</span>`
+
+gsap.timeline().to('.intro__title .splited-letter', {
+    opacity: 1,
+    visibility: 'visible',
+    duration: 1,
+    stagger: 0.1
+}).to('.intro__btn', {
+    opacity: 1,
+    visibility: 'visible',
+    duration: 1
+}, '-=2')
+
+introBtn.addEventListener('click', () =>
+{
+    console.log("Intro animation")
+    gsap.timeline().to('.overlay-anim-white', {
+        scaleY: 1,
+        duration: 0.5
+    }).to('.overlay-anim-black', {
+        scaleY: 1,
+        duration: 0.5
+    }, '-=0.3').to('.overlay-intro', {
+        opacity: 0,
+        visibility: 'hidden',
+        duration: 0
+    }).to('.overlay-anim-black, .overlay-anim-white', {
+        transformOrigin: 'top',
+        duration: 0
+    }).to('.overlay-anim-black', {
+        scaleY: 0,
+        duration: 0.5
+    }).to('.overlay-anim-white', {
+        scaleY: 0,
+        duration: 0.5
+    }, '-=0.3')
+})
 
 /**
  * Base

@@ -119,3 +119,84 @@ body {
 .btn .material-icons {
     font-size: 3rem;
 }
+
+/*////////////////////////////////////////
+///////////// INTRO OVERLAY //////////////
+////////////////////////////////////////*/
+
+.overlay-intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #000;
+}
+
+.intro__title {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.intro__title .splited-letter {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.intro__title__one {
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+.intro__title__two {
+    font-size: 3rem;
+}
+
+.intro__btn {
+    all: unset;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    letter-spacing: .25rem;
+    border: solid 1px #fff;
+    padding: 1rem 2rem;
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 800ms ease;
+}
+
+.intro__btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: -1;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: all 800ms ease;
+}
+
+.intro__btn:hover {
+    cursor: pointer;
+    color: #000;
+}
+
+.intro__btn:hover::before {
+    transform: scaleX(1);
+}
+
+.overlay-anim-white {
+    background: #fff;
+    transform-origin: bottom;
+    transform: scaleY(0);
+}
+
+.overlay-anim-black {
+    background: #000;
+    transform-origin: bottom;
+    transform: scaleY(0);
+}
