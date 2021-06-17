@@ -1,4 +1,5 @@
 # The Story of the Infinity Stones
+![The Infinity Stones](https://raw.githubusercontent.com/axlrsr/threejs-infinity-stones/master/static/social/share-1280x800.png)
 
 ## Setup
 ``` bash
